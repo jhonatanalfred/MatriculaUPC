@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    
+    
+    <navigation-rule>
+        
+        <from-view-id>/login.xhtml</from-view-id>
+        
+        <navigation-case>
+            
+            <from-outcome>exito</from-outcome>
+            <to-view-id>/tarea.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>fallo</from-outcome>
+            <to-view-id>/resultadoFallo.xhtml</to-view-id>    
+        
+        </navigation-case>
+        
+         
+        <navigation-case>
+            <from-outcome>usaste</from-outcome>
+            <to-view-id>/usuario.xhtml</to-view-id>   
+            </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        
+        <from-view-id>/tarea.xhtml</from-view-id>
+        
+       
+            
+           
+        
+          <navigation-case>
+            <from-outcome>usaste</from-outcome>
+            <to-view-id>/usuario.xhtml</to-view-id>    
+        
+        </navigation-case>
+        
+    </navigation-rule> 
+    
+    
+</faces-config>

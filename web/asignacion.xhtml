@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+  
+    
+           <f:view>
+   <h:head>
+        <title>Control de Tareas</title>
+    </h:head>
+    
+    
+    <h:body>
+         <h:form id="frmGeneral">
+              <p:menubar>
+                    <p:submenu label="Mantenimiento" icon="ui-icon-document">
+                        <p:menuitem value="Usuario" url="usuario.xhtml" />
+                        <p:separator />
+                        <p:menuitem value="Tarea" url="tarea.xhtml" />
+                        <p:separator />
+                        <p:menuitem value="Asignar" url="asignacion.xhtml" />
+                    </p:submenu>
+                    
+                    <p:submenu label="Reportes" icon="ui-icon-document">
+                        <p:menuitem value="Actividades Realizadas" url="actrealizadas.xhtml" />
+                        <p:separator />
+                        <p:menuitem value="Actividades no Realizadas" url="actnorealizadas.xhtml" />
+                        <p:separator />
+                    </p:submenu>
+		    
+                    <p:menuitem value="Salir" url="login.xhtml" icon="ui-icon-close" />
+                </p:menubar>
+             
+     <p:spacer height="30" />        
+             
+                <p:fieldset legend="Asignacion">  
+                 <p:messages id="messages" />
+                 <h:panelGrid columns="2">
+                       
+              <h:outputLabel  id="lblTarea" 
+                                        value="*Tarea:" for="tarea"/>
+              <h:selectOneMenu id="genero" value="#{itemBean.tareaID}"
+                                                 required="true" 
+                                         requiredMessage="Genero obligatorio">
+                        
+                            <f:selectItem itemLabel="Selecciona algo"  itemValue=""/>
+                            <f:selectItems value="#{tareaBean.tareas}"  var="tar"
+                               
+                                           itemLabel="#{tar.nombre}"
+                                           itemValue="#{tar.idtarea}"
+                                           />                                
+                        </h:selectOneMenu>   
+                
+               
+               <h:outputLabel  id="lblUsuario" 
+                                        value="*Usuario:" for="usuario"/>
+               <h:selectOneMenu id="usuario" value="#{itemBean.usuarioID}"
+                                                 required="true" 
+                                         requiredMessage="Genero obligatorio">
+                        
+                            <f:selectItem itemLabel="Selecciona algo" itemValue=""/>
+                            <f:selectItems value="#{usuarioBean.usuarios}" var="usu"
+                               
+                                           itemLabel="#{usu.user}"
+                                           itemValue="#{usu.idusuario}"
+                                           />                                
+                        </h:selectOneMenu>            
+                
+               <h:outputLabel id="lblFecha" value="Fecha:" for="fecha"
+                                       style="float:right;" />
+               <p:inputText id="fecha" size="60" value="#{itemBean.item.fecha}"
+                                     required="true" requiredMessage="Fecha Obligatorio." />
+              
+               
+               
+       
+               
+               
+                 <h:outputLabel id="lblDesc" value="Descripcion:" for="descripcion"
+                                       style="float:right;" />
+                 <p:inputText id="descripcion" size="60" value="#{itemBean.item.descripcion}"
+                                     required="true" requiredMessage="Nombre Obligatorio." />
+                      
+                 
+                 <p:commandButton value="Asignar" action="#{itemBean.save()}"
+                                      update="frmGeneral, messages, dtTareas"/>
+                   </h:panelGrid>
+                    <p:spacer height="50" />
+                    
+                     <p:dataTable id="dtTareas" emptyMessage="No se encontraron registros"
+                                  value="#{itemBean.items}" editable="true" var="i">
+                        <f:facet name="header">
+                            <h:outputText value="Asinaciones de Tareas" />
+                        </f:facet>
+                         
+                         
+                        <p:ajax event="rowEdit" listener="#{itemBean.update(i)}"  />
+                        <p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}"  />
+                         
+
+                        <p:column headerText="IdTarea">
+                            <f:facet name="header"><h:outputText value="ID Tarea" />
+                            </f:facet><h:outputText value="#{i.idtarea.idtarea}" />
+                        </p:column>
+                         
+                        <p:column headerText="Nombre Tarea">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{i.idtarea.nombre}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{i.idtarea.nombre}" style="width:100%">
+                                        <f:selectItems value="#{tareaBean.tareas}" var="t" itemLabel="#{t.nombre}" itemValue="#{t.nombre}" />
+                                   </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                         
+                        <p:column headerText="Nombre usuario">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{i.idusuario.nombre}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{i.idusuario.nombre}" style="width:100%" label="Year"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                    <p:column headerText="User">
+                           <p:cellEditor>
+                               <f:facet name="output"><h:outputText value="#{i.idusuario.user}" /></f:facet>
+                               <f:facet name="input">
+                                   <h:selectOneMenu value="#{i.idusuario.user}" style="width:100%">
+                                       <f:selectItems value="#{usuarioBean.usuarios}" var="u" itemLabel="#{u.user}" itemValue="#{u.user}" />
+                                   </h:selectOneMenu>
+                               </f:facet>
+                           </p:cellEditor>
+                    </p:column>
+                          
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Eliminar" />
+                            </f:facet>
+                            <f:ajax event="click" render="@form"
+                                    listener="#{itemBean.remove(i)}">
+                                <h:commandLink value="Eliminar" />
+                            </f:ajax>
+                        </p:column>
+                             
+                        <p:column style="width:32px">
+                            <p:rowEditor />
+                        </p:column>
+                         
+                        <f:facet name="footer">
+
+                            <h:outputText
+                                value="Hay un total de #{itemBean.count} Tarea(s) registrados en el sistema." />
+                        </f:facet>
+                    </p:dataTable>
+                </p:fieldset>
+
+
+            </h:form>
+    </h:body>
+    
+    </f:view> 
+</html>

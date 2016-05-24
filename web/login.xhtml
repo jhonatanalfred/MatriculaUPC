@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view>
+        <h:head>
+            <title>Control de DVDs</title>
+
+        </h:head>
+
+        <h:body>
+            <h:form id="frmGeneral">
+                <p:fieldset legend="Ingreso APP" style="alignment-adjust: middle ">  
+                    <p:messages id="messages" />
+                    <h:panelGrid columns="2">
+                        
+                        <h:outputLabel id="lblUsuario" value="User:" for="user"
+                                       style="float:right;" />
+                        <p:inputText id="user" size="60" value="#{usuarioBean.usuario.user}"
+                                     required="true" requiredMessage="Nombre Obligatorio." />
+                        
+                           <h:outputLabel id="lblClave" value="Clave:" for="clave"
+                                       style="float:right;" />
+                      
+                      <p:inputText id="password" size="60" type="password" value="#{usuarioBean.usuario.password}"
+                                     required="true" requiredMessage="Nombre Obligatorio." />
+                                     
+        
+                        <p:commandButton value="Ingresar" action="#{usuarioBean.login()}"
+                                         update="frmGeneral, messages"/>
+                        
+                    </h:panelGrid>
+
+
+                </p:fieldset>
+
+            </h:form>
+
+        </h:body>
+
+    </f:view>
+
+
+</html>

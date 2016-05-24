@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+<f:view>
+  
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    
+    
+    <h:body>
+        
+        <h:form id="frmGeneral">
+             
+             <p:menubar>
+                <p:submenu label="Mantenimiento" icon="ui-icon-document">
+                    <p:menuitem value="Usuario" url="usuario.xhtml" />
+                    <p:separator />
+                    <p:menuitem value="Tarea" url="tarea.xhtml" />
+                    <p:separator />
+                    <p:menuitem value="Asignar" url="asignacion.xhtml" />
+                </p:submenu>
+                 
+                <p:submenu label="Reportes" icon="ui-icon-document">
+                        <p:menuitem value="Actividades Realizadas" url="actrealizadas.xhtml" />
+                        <p:separator />
+                        <p:menuitem value="Actividades no Realizadas" url="actnorealizadas.xhtml" />
+                        <p:separator />
+                </p:submenu>
+		    
+                <p:menuitem value="Salir" url="login.xhtml" icon="ui-icon-close" />
+                
+               
+            </p:menubar>
+             
+            <p:spacer height="30" />  
+             
+            <p:fieldset legend="Usuarios">
+                
+                <p:messages id="messages" />
+                
+                <h:panelGrid columns="2">
+                       
+                    <h:outputLabel id="lblNombre" value="Nombre:" for="nombre"
+                                           style="float:right;" />        
+
+
+                    <p:inputText id="nombre" size="50" value="#{usuarioBean.usuario.nombre}"
+                                         required="true" requiredMessage="Nombre Obligatorio." />
+
+                    <h:outputLabel id="lblUser" value="Usuario:" for="user"
+                                           style="float:right;" />
+
+                    <p:inputText id="user" size="30"  value="#{usuarioBean.usuario.user}"
+                                         required="true" requiredMessage="Nombre Obligatorio." />
+
+
+                    <h:outputLabel id="lblClave" value="Clave:" for="clave"
+                                           style="float:right;" />
+
+                    <p:inputText id="password" size="30" type="password" value="#{usuarioBean.usuario.password}"
+                                         required="true" requiredMessage="Nombre Obligatorio." />
+
+                    <p:commandButton value="Registrar Usuario" action="#{usuarioBean.save()}"
+                                         update="frmGeneral, messages, dtUsuarios"/>
+                    
+                </h:panelGrid>
+                
+                
+                <p:spacer height="50" />
+                    
+                
+                    
+                <p:dataTable id="dtUsuarios" emptyMessage="No se encontraron registros" 
+                             value="#{usuarioBean.usuarios}" editable="true" var="u">
+                    
+                    <f:facet name="header">
+                        <h:outputText value="Lista Usuario's" />
+                    </f:facet>
+         
+                    <p:ajax event="rowEdit" listener="#{usuarioBean.update(u)}"  />
+                    <p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}"  />
+       
+                    <p:column headerText="Nombre">
+                       <p:cellEditor>
+                           <f:facet name="output"><h:outputText value="#{u.nombre}" /></f:facet>
+                           <f:facet name="input"><p:inputText id="modelInput" value="#{u.nombre}" style="width:100%"/></f:facet>
+                       </p:cellEditor>
+                    </p:column>
+                        
+                    <p:column headerText="User">
+                       <p:cellEditor>
+                           <f:facet name="output"><h:outputText value="#{u.user}" /></f:facet>
+                           <f:facet name="input"><p:inputText value="#{u.user}" style="width:100%" label="Year"/></f:facet>
+                       </p:cellEditor>
+                    </p:column>
+                          
+                    <p:column>
+                        <f:facet name="header"><h:outputText value="Eliminar" /></f:facet>
+                        <f:ajax event="click" render="@form" listener="#{usuarioBean.remove(u)}">
+                            <h:commandLink value="Eliminar" />
+                        </f:ajax>
+                    </p:column>
+                         
+                    <p:column style="width:32px">
+                       <p:rowEditor />
+                    </p:column>
+                  
+                    <f:facet name="footer">
+                        <h:outputText value="Hay un total de #{usuarioBean.count} Usuarios(s) registrados en el sistema." />
+                    </f:facet>
+                    
+                </p:dataTable>
+                    
+            </p:fieldset>
+
+        </h:form>
+        
+    </h:body>
+    
+</f:view>
+</html>
+
